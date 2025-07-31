@@ -1,0 +1,15 @@
+{
+	"Simple Plugin Example Python: template extending layout.html": {
+		"prefix": "flextlayout",
+		"body": [
+			"{% extends \"layout.html\" %}",
+			"{% block card_face_intro %}",
+			"$0",
+			"{% endblock %}",
+			"{% block expanded_intro %}",
+			"{% endblock %}"
+		],
+
+		"description": "Boilerplate template that extends layout.html"
+	}
+}

@@ -10,9 +10,13 @@
     <body>
         <div class="card-face-view">
             <div class="card-face-container">
+                <!--
                 <p>
                     Learn how to achieve your savings goals...
                 </p>
+                 -->
+                {% block card_face_intro %}
+                {% endblock %}
                 <div class="card-face-info">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
                         <path d="M32 0c-17.2 0-31.2 14-31.2 31.2s14 31.2 31.2 31.2 30.8-13.6 30.8-31.2c0-17.2-13.6-31.2-30.8-31.2zM32 54.4c-12.8 0-22.8-10.4-22.8-22.8 0-12.8 10.4-22.8 22.8-22.8s22.8 10.4 22.8 22.8c0 12.8-10 22.8-22.8 22.8z"></path>
@@ -40,7 +44,9 @@
             <h1>My Monthly Savings Program</h1>
             <div class="expanded-info">
 
-                <img class="main-image" src="{{ url_for('static', filename='images/image.jpeg') }}" alt="white terrior dog" />
+                <img class="main-image" src="{{ url_for('static', filename='images/image.jpg') }}" alt="white terrior dog" />
+                {% block expanded_intro %}
+                {% endblock %}
                 <p>
                     Learn how you can <strong>set aside money for your future goals</strong>, whether you're saving for education,
                     a new addition to your home, or that special vacation you've been wanting to go on!
