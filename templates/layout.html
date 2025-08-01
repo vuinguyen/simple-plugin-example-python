@@ -10,26 +10,20 @@
     <body>
         <div class="card-face-view">
             <div class="card-face-container">
-                <!--
-                <p>
-                    Learn how to achieve your savings goals...
-                </p>
-                 -->
                 {% block card_face_intro %}
                 {% endblock %}
+                <div class="card-face-info">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M2.503 18.786a4.752 4.752 0 0 1 5.608-6.692l.754-.754 1.06 1.061-1.089 1.09a.75.75 0 0 1-.823.16 3.251 3.251 0 0 0-4.495 3.39l2.165-2.165a.75.75 0 0 1 1.06 0l1.769 1.768a.75.75 0 0 1 0 1.06L6.346 19.87a3.251 3.251 0 0 0 3.39-4.495.75.75 0 0 1 .161-.824l1.09-1.09 1.06 1.061-.754.754a4.752 4.752 0 0 1-6.692 5.608.75.75 0 0 1-.191-1.2l2.51-2.51-.706-.707-2.511 2.51a.75.75 0 0 1-1.2-.191Zm9.898-8.86-1.06-1.06.753-.754a4.752 4.752 0 0 1 6.691-5.609.75.75 0 0 1 .192 1.2l-2.51 2.51.707.708 2.51-2.51a.75.75 0 0 1 1.2.191 4.752 4.752 0 0 1-5.608 6.692l-.754.753-1.06-1.06 1.089-1.09a.75.75 0 0 1 .823-.16 3.251 3.251 0 0 0 4.495-3.39l-2.165 2.165a.75.75 0 0 1-1.06 0l-1.768-1.768a.75.75 0 0 1 0-1.06l2.165-2.166a3.251 3.251 0 0 0-3.39 4.495.75.75 0 0 1-.16.824l-1.09 1.09Zm.546 5.85a.75.75 0 0 0 0 1.06l4.95 4.95a.75.75 0 0 0 1.06 0l2.83-2.828a.75.75 0 0 0 0-1.06l-4.95-4.95a.75.75 0 0 0-1.061 0l-.884.884-7.687-7.688-.12-.119a1.75 1.75 0 0 0-.41-1.825l-.708-.707a1.75 1.75 0 0 0-2.474 2.475l.707.707a1.75 1.75 0 0 0 1.825.411l.12.12 7.686 7.686-.883.884Zm5.48 4.42-3.888-3.89 1.767-1.767 3.89 3.889-1.768 1.768ZM4.554 4.553a.25.25 0 0 0 0 .354l.707.707a.25.25 0 0 0 .354-.353l-.707-.708a.25.25 0 0 0-.354 0Z" clip-rule="evenodd"/>
+                    </svg>
+                    <div>Our <strong>financial tools</strong> help you save money</div>
+                </div>
                 <div class="card-face-info">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
                         <path d="M32 0c-17.2 0-31.2 14-31.2 31.2s14 31.2 31.2 31.2 30.8-13.6 30.8-31.2c0-17.2-13.6-31.2-30.8-31.2zM32 54.4c-12.8 0-22.8-10.4-22.8-22.8 0-12.8 10.4-22.8 22.8-22.8s22.8 10.4 22.8 22.8c0 12.8-10 22.8-22.8 22.8z"></path>
                         <path d="M32 14.4c-9.6 0-17.2 7.6-17.2 17.2s7.6 17.2 17.2 17.2 17.2-7.6 17.2-17.2c0-9.6-7.6-17.2-17.2-17.2zM32 40.8c-5.2 0-9.2-4-9.2-9.2s4-9.2 9.2-9.2 9.2 4 9.2 9.2c0 5.2-4 9.2-9.2 9.2z"></path>
                     </svg>
-                    <div>Set your <strong>savings goal</strong> for each month</div>
-                </div>
-                <div class="card-face-info">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M2.503 18.786a4.752 4.752 0 0 1 5.608-6.692l.754-.754 1.06 1.061-1.089 1.09a.75.75 0 0 1-.823.16 3.251 3.251 0 0 0-4.495 3.39l2.165-2.165a.75.75 0 0 1 1.06 0l1.769 1.768a.75.75 0 0 1 0 1.06L6.346 19.87a3.251 3.251 0 0 0 3.39-4.495.75.75 0 0 1 .161-.824l1.09-1.09 1.06 1.061-.754.754a4.752 4.752 0 0 1-6.692 5.608.75.75 0 0 1-.191-1.2l2.51-2.51-.706-.707-2.511 2.51a.75.75 0 0 1-1.2-.191Zm9.898-8.86-1.06-1.06.753-.754a4.752 4.752 0 0 1 6.691-5.609.75.75 0 0 1 .192 1.2l-2.51 2.51.707.708 2.51-2.51a.75.75 0 0 1 1.2.191 4.752 4.752 0 0 1-5.608 6.692l-.754.753-1.06-1.06 1.089-1.09a.75.75 0 0 1 .823-.16 3.251 3.251 0 0 0 4.495-3.39l-2.165 2.165a.75.75 0 0 1-1.06 0l-1.768-1.768a.75.75 0 0 1 0-1.06l2.165-2.166a3.251 3.251 0 0 0-3.39 4.495.75.75 0 0 1-.16.824l-1.09 1.09Zm.546 5.85a.75.75 0 0 0 0 1.06l4.95 4.95a.75.75 0 0 0 1.06 0l2.83-2.828a.75.75 0 0 0 0-1.06l-4.95-4.95a.75.75 0 0 0-1.061 0l-.884.884-7.687-7.688-.12-.119a1.75 1.75 0 0 0-.41-1.825l-.708-.707a1.75 1.75 0 0 0-2.474 2.475l.707.707a1.75 1.75 0 0 0 1.825.411l.12.12 7.686 7.686-.883.884Zm5.48 4.42-3.888-3.89 1.767-1.767 3.89 3.889-1.768 1.768ZM4.554 4.553a.25.25 0 0 0 0 .354l.707.707a.25.25 0 0 0 .354-.353l-.707-.708a.25.25 0 0 0-.354 0Z" clip-rule="evenodd"/>
-                    </svg>
-                    <div>Get access to our <strong>financial planning tools</strong></div>
-                </div>
+                    <div>Which you can invest towards your <strong>savings goals</strong></div>
                 </div>
                 <div class="card-face-info">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
@@ -41,26 +35,21 @@
         </div>
 
         <div class="expanded-view">
-            <h1>My Monthly Savings Program</h1>
+            <h1>Doggone Terrierific Savings Program</h1>
             <div class="expanded-info">
 
                 <img class="main-image" src="{{ url_for('static', filename='images/image.jpg') }}" alt="white terrior dog" />
                 {% block expanded_intro %}
                 {% endblock %}
                 <p>
-                    Learn how you can <strong>set aside money for your future goals</strong>, whether you're saving for education,
-                    a new addition to your home, or that special vacation you've been wanting to go on!
+                    Our <strong>We sniff out your money</strong> program feature evaluates your spending patterns and finds opportunities to help you save money.
                 </p>
                 <p>
-                    Our "My Monthly Savings" program allows you to specify <strong>how much you want to save</strong> each month.
-                    The amount is completely flexible; you can set this once, or you change this amount as often as needed.
+                    Our <strong>We will treat you</strong> savings calculator will help you put your newfound spare change towards a savings goal;
+                    whether that is a down payment for a house or that dream vacation!
                 </p>
                 <p>
-                    Our <strong>Savings Calculator</strong> can help you figure out <strong>how much to save each month</strong>
-                    in order to reach a specific savings goal, taking the mystery out of monthly savings.
-                </p>
-                <p>
-                    And you get <strong>monthly reports</strong> showing your savings activity, with helpful guidance on how to
+                    And you get <strong>good dog monthly reports</strong> showing your savings activity, with helpful guidance on how to 
                     get the most out of your savings.
                 </p>
             </div>
