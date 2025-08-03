@@ -36,3 +36,6 @@ On macOS/Linux:
 
 ## How to Run: Dynamic Plugin
 Coming Soon: Work in progress on Dynamic Plugin
+
+## Sample Screenshots
+Can be found on the `SCREENSHOTS README`.
