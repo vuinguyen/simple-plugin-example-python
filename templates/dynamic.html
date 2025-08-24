@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block card_face_intro %}
+<p>
+    Hi {{ name }}, you have 
+    <strong>{{ accounts_count }} {% if accounts_count == 1 %}account{% else %}accounts{% endif %}</strong>
+    that {% if accounts_count == 1 %}qualifies{% else %}qualify{% endif %} for our <strong>Doggone Terrierific Savings Program</strong>...
+</p>
+{% endblock %}
+{% block expanded_intro %}
+<p>
+    Hi {{ name }}, you have 
+    <strong>{{ accounts_count }} {% if accounts_count == 1 %}account{% else %}accounts{% endif %}</strong> 
+    that {% if accounts_count == 1 %}qualifies{% else %}qualify{% endif %} for our <strong>Doggone Terrierific Savings Program</strong> program!
+</p>
+{% endblock %}
