@@ -18,5 +18,5 @@ def dynamic():
     accounts_count = 3
     if name and accounts_count is not None:
         return render_template("dynamic.html", name=name, accounts_count=accounts_count)
-    # else render default.html
-    return "hello, you're dynamic!"
+    else:
+        return render_template("default.html")
