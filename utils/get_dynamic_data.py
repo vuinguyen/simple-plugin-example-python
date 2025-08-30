@@ -1,24 +1,36 @@
 import json
+#from urllib import response
 import requests
-
-from pkce import create_code_challenge, create_code_verifier
-from state import generate_random_string
+from flask import request
+from flask import redirect
+import urllib
+from utils.pkce import create_code_challenge, create_code_verifier
+from utils.state import generate_random_string
 
 def return_none():
     return None
 
+def access_resources():
+    return True
+
+def exchange_tokens(redirect_uri_full):
+
+    return True  # placeholder
+
+# build the authorization URL and direct the user to it
 def request_authorization():
-    # build the authorization URL and direct the user to it
-    success = True
+    redirect_uri_full = None
 
     # get parameter values from config.json
     # and place into parameters
-    with open('../config.json') as f:
+    with open('config.json') as f:
         config = json.load(f)
     client_id = config.get("client_id")
     client_id_param = f'client_id={client_id}'
+
     client_secret = config.get("client_secret")
     client_secret_param = f'client_secret={client_secret}'  
+
     redirect_uri = config.get("redirect_uri")
     redirect_uri_param = f'redirect_uri={redirect_uri}'
 

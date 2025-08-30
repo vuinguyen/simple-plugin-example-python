@@ -1,5 +1,10 @@
 from flask import render_template
 from flask import Flask
+from flask import request
+from flask import redirect
+from flask import url_for
+from utils.get_dynamic_data import request_authorization
+
 app = Flask(__name__)
 
 @app.route("/")
