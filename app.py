@@ -41,8 +41,10 @@ def auth():
     # redirect the user to the authorization URL
     print("Redirecting to authorization URL:", authorization_url)
     # make a GET request to the authorization URL   
-    # requests.get(authorization_url)
+    #response = requests.get(authorization_url)
+   
     response = requests.get(authorization_url, allow_redirects=False)
+
     # get the full redirect URL from the response
     redirect_uri_full = response.url
     print("Full Redirect URL:", redirect_uri_full)
@@ -66,13 +68,15 @@ def auth():
 
     # how to pass the request to the auth_callback endpoint?
 
-    return redirect(url_for("auth_callback"))
+    #return redirect(url_for("auth_callback"))
+    #return "This was the auth endpoint."
+    return redirect(authorization_url)
 
 
 @app.route("/auth/callback")
 def auth_callback():
     print("In auth callback endpoint")
-    #code = request.args.get('code')
-    #print("Authorization Code received in callback:", code)
+    code = request.args.get('code')
+    print("Authorization Code received in callback:", code)
     return redirect(url_for("dynamic"))    
 
