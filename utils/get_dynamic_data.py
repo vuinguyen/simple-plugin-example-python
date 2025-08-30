@@ -50,23 +50,46 @@ def request_authorization():
     print("Visit this URL to authorize the application:")
     print(authorization_url)
 
-    authorization_request = requests.get(authorization_url)
-    if authorization_request.status_code != 200:
-        success = False
-    #authorization_request = requests.redirect(authorization_url)
-    print(authorization_request.status_code)
-    print(authorization_request.url)
-    return success
+    # redirect the user to the authorization URL    
+    # response_type.redirect(authorization_url)
+    # simulate user authorization by making a GET request to the authorization URL
+    # and following redirects to capture the full redirect URI
+    #redirect_uri_full = redirect(authorization_url).location  
 
-def exchange_tokens():
-    return True 
+    #redirect_uri_full = redirect(authorization_url).location     
 
-def access_resources():
-    return True
+    redirect_uri_full = requests.get(authorization_url).url 
+
+    response = redirect(redirect_uri_full)
+    print("Redirect URI full:", redirect_uri_full)
+    print("Response object:", response.location)
+
+    query = urllib.parse.urlparse(redirect_uri_full).query
+    params = urllib.parse.parse_qs(query)
+    print("params", params)
+
+    print("code", request.args.get('code'))  # simulate getting the authorization code from the redirect URI
+
+    #authorization_response = requests.get(authorization_url)
+
+    #if authorization_response.status_code != 200:
+    #    return redirect_uri_full
+    
+    #redirect_uri_full = authorization_response.url
+    #print(authorization_response.status_code)
+    #print(authorization_response.url)
+
+    #return redirect_uri_full
 
 def get_dynamic_data():
 
-    request_authorization()
+    redirect_uri_full = request_authorization()
+    
+    if redirect_uri_full is None:
+        return None
+    
+    if exchange_tokens(redirect_uri_full) is False:
+        return None
 
     # Simulate fetching dynamic data, e.g., from a database or an API
     return {
