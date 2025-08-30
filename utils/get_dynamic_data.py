@@ -17,12 +17,11 @@ def exchange_tokens(redirect_uri_full):
 
     return True  # placeholder
 
-# build the authorization URL and direct the user to it
-def request_authorization():
-    redirect_uri_full = None
-
+def build_authorization_url():
     # get parameter values from config.json
     # and place into parameters
+    print("Building authorization URL...")
+
     with open('config.json') as f:
         config = json.load(f)
     client_id = config.get("client_id")
@@ -61,6 +60,13 @@ def request_authorization():
 
     print("Visit this URL to authorize the application:")
     print(authorization_url)
+    return authorization_url
+
+# build the authorization URL and direct the user to it
+def request_authorization():
+    redirect_uri_full = None
+    authorization_url = build_authorization_url()
+    
 
     # redirect the user to the authorization URL    
     # response_type.redirect(authorization_url)
@@ -70,17 +76,24 @@ def request_authorization():
 
     #redirect_uri_full = redirect(authorization_url).location     
 
-    redirect_uri_full = requests.get(authorization_url).url 
+    response = requests.get(authorization_url) 
+    cookies = response.headers.get('Set-Cookie')
+    print("cookies", cookies)
+    # response = redirect(redirect_uri_full)
 
-    response = redirect(redirect_uri_full)
-    print("Redirect URI full:", redirect_uri_full)
-    print("Response object:", response.location)
+    redirect = response.headers.get('Location')
+    print("Redirect full:", redirect)
 
-    query = urllib.parse.urlparse(redirect_uri_full).query
+    #print("Redirect URI full:", redirect_uri_full)
+    #print("Response object:", response.location)
+
+    query = urllib.parse.urlparse(redirect).query
     params = urllib.parse.parse_qs(query)
     print("params", params)
 
-    print("code", request.args.get('code'))  # simulate getting the authorization code from the redirect URI
+    params.get('code')
+    print("code", params.get('code'))  # simulate getting the authorization code from the
+   # print("code", request.args.get('code'))  # simulate getting the authorization code from the redirect URI
 
     #authorization_response = requests.get(authorization_url)
 
