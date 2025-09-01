@@ -67,5 +67,5 @@ def auth_callback():
 
     # use the authorization code to get dynamic data
     name, accounts_count = get_dynamic_data(code)
-    return redirect(url_for("dynamic"))    
+    return redirect(url_for("dynamic", name=name, accounts_count=accounts_count))    
 
