@@ -9,10 +9,21 @@ from utils.state import generate_random_string
 
 # create a dictionary to hold parameter values
 # This is NOT recommended for production use
-params = {}
+params = dict(
+    client_id = None,
+    client_secret = None,
+    redirect_uri = None,
+    environment = None,
+    state = None,
+    code_verifier = None,
+    code_challenge = None,
+    code_challenge_method = None,
+    response_type = None,
+    scope = None,
+)
 
 def return_none():
-    return None
+    return None, None
 
 def access_resources():
     return True
@@ -20,8 +31,12 @@ def access_resources():
 def build_parameters():
     return True  # placeholder
 
-def build_token_url():
-    return True  # placeholder
+def build_token_url(code):
+    token_url = None
+
+    print("Building token URL...")
+    token_baseURL = f'{params["environment"]}/a/consumer/api/v0/oidc/auth/token'
+    return token_url  # placeholder
 
 def exchange_tokens(token_url):
 
@@ -38,62 +53,50 @@ def build_user_info_url(code):
 
 def build_authorization_url():
     # get parameter values from config.json
-    # and place into parameters
+    # and populate the params dictionary
     print("Building authorization URL...")
 
     with open('config.json') as f:
         config = json.load(f)
+
     client_id = config.get("client_id")
-    # add to params dictionary
-    client_id_param = "client_id_param"
-    params = {client_id_param: f'client_id={client_id}'}
+    params["client_id"] = f'client_id={config.get("client_id")}'  # alternative one-liner
 
     client_secret = config.get("client_secret")
-    client_secret_param = "client_secret_param"
-    params = {client_secret_param: f'client_secret={client_secret}'}
-    # params.client_secret_param = f'client_secret={client_secret}'  
+    params["client_secret"] = f'client_secret={client_secret}'  
 
     redirect_uri = config.get("redirect_uri")
-    redirect_uri_param = "redirect_uri_param"
-    params = {redirect_uri_param: f'redirect_uri={redirect_uri}'}
-    #params.redirect_uri_param = f'redirect_uri={redirect_uri}'
+    params["redirect_uri"] = f'redirect_uri={redirect_uri}'
 
     environment = config.get("environment")
+    params["environment"] = f'{environment}'
 
     # close file
     f.close()
 
     response_type = "code"
-    response_type_param = f'response_type={response_type}'
+    params["response_type"] = f'response_type={response_type}'
 
     scope = "openid%20profile%20https://api.banno.com/consumer/auth/accounts.readonly"
-    scope_param = f'scope={scope}'
+    params["scope"] = f'scope={scope}'
 
     state = generate_random_string()
-    state_param = "state_param"
-    params = {state_param: f'state={state}'}
-    # params.state_param = f'state={state}'
+    params["state"] = f'state={state}'
 
     code_challenge_method = "S256"
-    code_challenge_method_param = f'code_challenge_method={code_challenge_method}'
+    params["code_challenge_method"] = f'code_challenge_method={code_challenge_method}'
 
     code_verifier = create_code_verifier()
-    code_verifier_param = "code_verifier_param"
-    params = {code_verifier_param: f'code_verifier={code_verifier}'}
-    #params.code_verifier_param = f'code_verifier={code_verifier}'
+    params["code_verifier"] = f'code_verifier={code_verifier}'
 
     # store the code verifier somewhere safe to use later when exchanging the authorization code for tokens
     # create the code challenge from the code verifier
     code_challenge = create_code_challenge(code_verifier)
-    code_challenge_param = "code_challenge_param"
-    params = {code_challenge_param: f'code_challenge={code_challenge}'}
-    #params.code_challenge_param = f'code_challenge={code_challenge}'
+    params["code_challenge"] = f'code_challenge={code_challenge}'
 
-    auth_baseURL = f'{environment}/a/consumer/api/v0/oidc/auth'
+    auth_baseURL = f'{params["environment"]}/a/consumer/api/v0/oidc/auth'
 
     auth_params = f'client_id={client_id}&redirect_uri={redirect_uri}&scope={scope}&response_type={response_type}&state={state}&code_challenge={code_challenge}&code_challenge_method={code_challenge_method}'
-
-    # authorization_url = f'{auth_baseURL}?{params.client_id_param}&{params.redirect_uri_param}&{scope_param}&{response_type_param}&{params.state_param}&{params.code_challenge_param}&{code_challenge_method_param}'
 
     authorization_url = f'{auth_baseURL}?{auth_params}'
     print("Visit this URL to authorize the application:")
@@ -147,8 +150,19 @@ def request_authorization():
 def get_dynamic_data(code=None):
     name = "Dynamic User"
     accounts_count = 3
-    print("Getting dynamic data...")
-     
+
+    if code == None:
+        print("No authorization code provided.")
+        return return_none()
+
+    token_url = build_token_url(code)
+    if token_url == None:
+        print("Failed to build token URL.")
+        return return_none()
+    
+    exchange_tokens(token_url)
+
+    print("Returning dynamic data...")
     return name, accounts_count 
     
 
