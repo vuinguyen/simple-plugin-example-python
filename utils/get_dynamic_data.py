@@ -7,13 +7,32 @@ import urllib
 from utils.pkce import create_code_challenge, create_code_verifier
 from utils.state import generate_random_string
 
+# create a dictionary to hold parameter values
+# This is NOT recommended for production use
+params = {}
+
 def return_none():
     return None
 
 def access_resources():
     return True
 
-def exchange_tokens(redirect_uri_full):
+def build_parameters():
+    return True  # placeholder
+
+def build_token_url():
+    return True  # placeholder
+
+def exchange_tokens(token_url):
+
+    return True  # placeholder
+
+
+def build_user_info_url(code):
+    # use the authorization code to get an access token
+    # request an access token from the token endpoint
+    # then use the access token to get user info from the user info endpoint
+    print("Building user info URL...")
 
     return True  # placeholder
 
@@ -25,13 +44,19 @@ def build_authorization_url():
     with open('config.json') as f:
         config = json.load(f)
     client_id = config.get("client_id")
-    client_id_param = f'client_id={client_id}'
+    # add to params dictionary
+    client_id_param = "client_id_param"
+    params = {client_id_param: f'client_id={client_id}'}
 
     client_secret = config.get("client_secret")
-    client_secret_param = f'client_secret={client_secret}'  
+    client_secret_param = "client_secret_param"
+    params = {client_secret_param: f'client_secret={client_secret}'}
+    # params.client_secret_param = f'client_secret={client_secret}'  
 
     redirect_uri = config.get("redirect_uri")
-    redirect_uri_param = f'redirect_uri={redirect_uri}'
+    redirect_uri_param = "redirect_uri_param"
+    params = {redirect_uri_param: f'redirect_uri={redirect_uri}'}
+    #params.redirect_uri_param = f'redirect_uri={redirect_uri}'
 
     environment = config.get("environment")
 
@@ -45,19 +70,32 @@ def build_authorization_url():
     scope_param = f'scope={scope}'
 
     state = generate_random_string()
-    state_param = f'state={state}'
+    state_param = "state_param"
+    params = {state_param: f'state={state}'}
+    # params.state_param = f'state={state}'
 
     code_challenge_method = "S256"
     code_challenge_method_param = f'code_challenge_method={code_challenge_method}'
 
     code_verifier = create_code_verifier()
+    code_verifier_param = "code_verifier_param"
+    params = {code_verifier_param: f'code_verifier={code_verifier}'}
+    #params.code_verifier_param = f'code_verifier={code_verifier}'
+
+    # store the code verifier somewhere safe to use later when exchanging the authorization code for tokens
+    # create the code challenge from the code verifier
     code_challenge = create_code_challenge(code_verifier)
-    code_challenge_param = f'code_challenge={code_challenge}'
+    code_challenge_param = "code_challenge_param"
+    params = {code_challenge_param: f'code_challenge={code_challenge}'}
+    #params.code_challenge_param = f'code_challenge={code_challenge}'
 
     auth_baseURL = f'{environment}/a/consumer/api/v0/oidc/auth'
 
-    authorization_url = f'{auth_baseURL}?{client_id_param}&{redirect_uri_param}&{scope_param}&{response_type_param}&{state_param}&{code_challenge_param}&{code_challenge_method_param}'
+    auth_params = f'client_id={client_id}&redirect_uri={redirect_uri}&scope={scope}&response_type={response_type}&state={state}&code_challenge={code_challenge}&code_challenge_method={code_challenge_method}'
 
+    # authorization_url = f'{auth_baseURL}?{params.client_id_param}&{params.redirect_uri_param}&{scope_param}&{response_type_param}&{params.state_param}&{params.code_challenge_param}&{code_challenge_method_param}'
+
+    authorization_url = f'{auth_baseURL}?{auth_params}'
     print("Visit this URL to authorize the application:")
     print(authorization_url)
     return authorization_url
@@ -106,21 +144,13 @@ def request_authorization():
 
     #return redirect_uri_full
 
-def get_dynamic_data():
-
-    redirect_uri_full = request_authorization()
+def get_dynamic_data(code=None):
+    name = "Dynamic User"
+    accounts_count = 3
+    print("Getting dynamic data...")
+     
+    return name, accounts_count 
     
-    if redirect_uri_full is None:
-        return None
-    
-    if exchange_tokens(redirect_uri_full) is False:
-        return None
-
-    # Simulate fetching dynamic data, e.g., from a database or an API
-    return {
-        "name": "Dynamic User",
-        "accounts_count": 5
-    }
 
 
 
