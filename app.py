@@ -5,7 +5,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 import requests
-from utils.get_dynamic_data import request_authorization
+from utils.get_dynamic_data import build_user_info_url, get_dynamic_data, request_authorization
 from utils.get_dynamic_data import build_authorization_url
 from utils.pkce import create_code_challenge, create_code_verifier
 from utils.state import generate_random_string
@@ -43,33 +43,19 @@ def auth():
     # make a GET request to the authorization URL   
     #response = requests.get(authorization_url)
    
-    response = requests.get(authorization_url, allow_redirects=False)
+    # response = requests.get(authorization_url, allow_redirects=False)
 
     # get the full redirect URL from the response
-    redirect_uri_full = response.url
-    print("Full Redirect URL:", redirect_uri_full)
-    print("Authorization Code received in auth endpoint:", request.args.get('code'))
-    print("State received in auth endpoint:", request.args.get('state'))
-    print("Response object:", response)
-    print("Response headers:", response.headers)
-    print("Response status code:", response.status_code)
-    print("Response cookies:", response.cookies)
-
-    #response = requests.get(authorization_url)
-    #redirect_url = response.url
-    #print("redirect: ", redirect_url)
-    #request.args.get('code')
+    #redirect_uri_full = response.url
+    #print("Full Redirect URL:", redirect_uri_full)
     #print("Authorization Code received in auth endpoint:", request.args.get('code'))
-    #cookies = response.headers.get('Set-Cookie')
-    #print("cookies", cookies)
-    # response = redirect(redirect_uri_full)
-    #redirect_uri_full = response.headers.get('Location')
-    #print("Redirect full:", redirect_uri_full)
+    #print("State received in auth endpoint:", request.args.get('state'))
+    #print("Response object:", response)
+    #print("Response headers:", response.headers)
+    #print("Response status code:", response.status_code)
+    #print("Response cookies:", response.cookies)
 
-    # how to pass the request to the auth_callback endpoint?
-
-    #return redirect(url_for("auth_callback"))
-    #return "This was the auth endpoint."
+    # redirect the user to the authorization URL
     return redirect(authorization_url)
 
 
@@ -78,5 +64,8 @@ def auth_callback():
     print("In auth callback endpoint")
     code = request.args.get('code')
     print("Authorization Code received in callback:", code)
+
+    # use the authorization code to get dynamic data
+    name, accounts_count = get_dynamic_data(code)
     return redirect(url_for("dynamic"))    
 
