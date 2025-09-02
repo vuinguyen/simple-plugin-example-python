@@ -1,14 +1,9 @@
-from urllib import response
-from flask import json, render_template
+from flask import render_template
 from flask import Flask
 from flask import request
 from flask import redirect
-from flask import url_for
-import requests
-from utils.get_dynamic_data import build_user_info_url, get_JWT_tokens, get_dynamic_data, request_authorization
+from utils.get_dynamic_data import get_dynamic_data
 from utils.get_dynamic_data import build_authorization_url
-from utils.pkce import create_code_challenge, create_code_verifier
-from utils.state import generate_random_string
 
 app = Flask(__name__)
 
@@ -22,10 +17,6 @@ def default():
 
 @app.route("/dynamic")
 def dynamic(name=None, accounts_count=None):
-    # if name and accounts count are not None, return a dynamic html page
-    # hardcoded for now, until we connect to the backend for real data
-    # name = "Dynamic User"
-    # accounts_count = 3
     if name and accounts_count is not None:
         return render_template("dynamic.html", name=name, accounts_count=accounts_count)
     else:
@@ -33,43 +24,25 @@ def dynamic(name=None, accounts_count=None):
     
 @app.route("/auth")
 def auth():
-    # return "This is the auth endpoint."
     print("In auth endpoint")
     # get the authorization URL
     authorization_url = build_authorization_url()
 
     # redirect the user to the authorization URL
     print("Redirecting to authorization URL:", authorization_url)
-    # make a GET request to the authorization URL   
-    #response = requests.get(authorization_url)
-   
-    # response = requests.get(authorization_url, allow_redirects=False)
-
-    # get the full redirect URL from the response
-    #redirect_uri_full = response.url
-    #print("Full Redirect URL:", redirect_uri_full)
-    #print("Authorization Code received in auth endpoint:", request.args.get('code'))
-    #print("State received in auth endpoint:", request.args.get('state'))
-    #print("Response object:", response)
-    #print("Response headers:", response.headers)
-    #print("Response status code:", response.status_code)
-    #print("Response cookies:", response.cookies)
-
-    # redirect the user to the authorization URL
     return redirect(authorization_url)
 
 
 @app.route("/auth/callback")
 def auth_callback():
     print("In auth callback endpoint")
-    code = request.args.get('code')
-    print("Authorization Code received in callback:", code)
+    authorization_code = request.args.get('code')
+    print("Authorization Code received in callback:", authorization_code)
 
-    name, accounts_count = get_dynamic_data(code)
+    name, accounts_count = get_dynamic_data(authorization_code)
     print("Name:", name)
     print("Accounts Count:", accounts_count)
     if name is None or accounts_count is None:
         return render_template("default.html")
-    return render_template("dynamic.html", name=name, accounts_count=accounts_count)
-    # return redirect(url_for("dynamic", name=name, accounts_count=accounts_count))    
+    return render_template("dynamic.html", name=name, accounts_count=accounts_count)    
 
