@@ -65,22 +65,11 @@ def auth_callback():
     code = request.args.get('code')
     print("Authorization Code received in callback:", code)
 
-    # use the authorization code to get dynamic data
-    # name, accounts_count = get_dynamic_data(code)
-    #tokens = get_JWT_tokens(code)
-    #print("Token URL received in callback:", token_request.url)
-    #print("Token Data received in callback:", token_request.data)
-    #print("Token Headers received in callback:", token_request.headers)
-    
-    #if token_request == None:
-    #    return redirect(url_for("dynamic"))
-        
-    #response = requests.post(token_request.url, data=token_request.data, headers=token_request.headers, allow_redirects=False)
-    #print("Response status code:", response.status_code)
-    #print("Response text:", response.text)
-
     name, accounts_count = get_dynamic_data(code)
     print("Name:", name)
     print("Accounts Count:", accounts_count)
-    return redirect(url_for("dynamic", name=name, accounts_count=accounts_count))    
+    if name is None or accounts_count is None:
+        return render_template("default.html")
+    return render_template("dynamic.html", name=name, accounts_count=accounts_count)
+    # return redirect(url_for("dynamic", name=name, accounts_count=accounts_count))    
 

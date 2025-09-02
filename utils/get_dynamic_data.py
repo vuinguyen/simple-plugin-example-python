@@ -30,11 +30,33 @@ baseURL = None
 def return_none():
     return None, None
 
-def access_resources():
-    return True
+def request_user_data(access_token, id_token):
+    name = None
+    accounts_count = None
 
-def build_parameters():
-    return True  # placeholder
+    user_id = id_token.get("sub")
+    print("User ID from ID Token:", user_id)
+
+    user_info_url = f'{baseURL}/a/consumer/api/v0/users/{user_id}/accounts'
+    print("User Info URL:", user_info_url)
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+    }
+
+    response = requests.get(user_info_url, headers=headers)
+    if response.status_code != 200:
+        print("Failed to get user info. Status code:", response.status_code)
+        print("Response:", response.text)
+        return name, accounts_count
+    
+    accounts_data = response.json()
+    accounts_count = len(accounts_data.get("accounts", []))
+    print("Accounts Data:", accounts_data)
+    print("Number of Accounts:", accounts_count)
+
+    name = id_token.get("given_name")
+   
+    return name, accounts_count
 
 def get_JWT_tokens(code):
     tokens = None, None
@@ -84,7 +106,7 @@ def get_JWT_tokens(code):
     id_token_decoded = jwt.decode(id_token, options={"verify_signature": False})
     print("ID Token (decoded):", id_token_decoded)
 
-    return access_resources, id_token_decoded
+    return access_token, id_token_decoded
 
 def exchange_tokens(token_url):
 
@@ -223,7 +245,7 @@ def request_authorization():
     #print(authorization_response.status_code)
     #print(authorization_response.url)
 
-    #return redirect_uri_full
+    return redirect_uri_full
 
 def get_dynamic_data(code=None):
     name = None
@@ -233,12 +255,12 @@ def get_dynamic_data(code=None):
         print("No authorization code provided.")
         return return_none()
 
-    tokens = get_JWT_tokens(code)
-    if tokens == None:
+    access_token, id_token_decoded = get_JWT_tokens(code)
+    if access_token is None or id_token_decoded is None:
         print("Failed to build token URL.")
         return return_none()
     
-    #exchange_tokens(tokens)
+    name, accounts_count = request_user_data(access_token, id_token_decoded)
 
     print("Returning dynamic data...")
     return name, accounts_count 
