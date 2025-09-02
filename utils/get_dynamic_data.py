@@ -19,6 +19,7 @@ params = {
     "code_challenge_method": None,
     "response_type": None,
     "scope": None,
+    "claims": None
 }
 
 # base URL for the authorization server
@@ -38,7 +39,7 @@ def get_JWT_tokens(code):
     tokens = None
 
     print("Building token URL...")
-    token_baseURL = f'{baseURL}/a/consumer/api/v0/oidc/auth/token'
+    token_baseURL = f'{baseURL}/a/consumer/api/v0/oidc/token'
 
     data = {
         "client_id": params["client_id"],
@@ -51,14 +52,16 @@ def get_JWT_tokens(code):
     }
 
     headers = {
-        "content-type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded"
     }
 
     print("Making POST request to token URL...")
     print("URL:", token_baseURL)
     print("Data:", data)
-    #response = requests.post(token_baseURL, data=data, headers=headers, allow_redirects=False)
-    response = requests.post(token_baseURL, data=data, headers=headers)
+    print("Headers:", headers)
+
+    # make a POST request to the token endpoint
+    response = requests.post(token_baseURL, data=data, headers=headers, allow_redirects=False)
 
     if response.status_code == 200:
         tokens = response.json()
@@ -136,11 +139,25 @@ def build_authorization_url():
     # create the code challenge from the code verifier
     #code_challenge = create_code_challenge(code_verifier)
     #params["code_challenge"] = f'code_challenge={code_challenge}'
-    params["code_challenge"] = create_code_challenge(params["code_verifier"])
+    # params["code_challenge"] = create_code_challenge(params["code_verifier"])
+
+    # Note, claims parameter is optional
+    claims = {
+        'https://api.banno.com/consumer/claim/institution_id': '',
+    }
+
+    claimsToRequest = {
+        'id_token': claims,
+        'userinfo': claims
+    }
+
+    claims_json = json.dumps(claimsToRequest)
+    claims_encoded = urllib.parse.quote(claims_json)
+    params["claims"] = f'claims={claims_encoded}'
 
     auth_baseURL = f'{baseURL}/a/consumer/api/v0/oidc/auth'
 
-    auth_params = f'client_id={params["client_id"]}&redirect_uri={params["redirect_uri"]}&scope={params["scope"]}&response_type={params["response_type"]}&state={params["state"]}&code_challenge={params["code_challenge"]}&code_challenge_method={params["code_challenge_method"]}'
+    auth_params = f'client_id={params["client_id"]}&redirect_uri={params["redirect_uri"]}&scope={params["scope"]}&response_type={params["response_type"]}&state={params["state"]}&code_challenge={params["code_challenge"]}&code_challenge_method={params["code_challenge_method"]}&{params["claims"]}'
     #auth_params = '&'.join(params.values())
     #auth_params = urllib.parse.quote(params.values, safe='=&')  # encode the parameters
 
