@@ -124,7 +124,12 @@ def build_authorization_url():
     params["code_challenge_method"] = "S256"
     #params["code_challenge_method"] = f'code_challenge_method={code_challenge_method}'
 
-    params["code_verifier"] = create_code_verifier()
+    # params["code_verifier"] = create_code_verifier()
+    code_verifier = create_code_verifier()
+    code_challenge = create_code_challenge(code_verifier)
+
+    params["code_verifier"] = f'{code_verifier}'
+    params["code_challenge"] = f'{code_challenge}'
     #params["code_verifier"] = f'code_verifier={code_verifier}'
 
     # store the code verifier somewhere safe to use later when exchanging the authorization code for tokens
