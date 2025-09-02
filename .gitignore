@@ -1,1 +1,3 @@
 *.pyc
+utils/data.txt
+config.json
