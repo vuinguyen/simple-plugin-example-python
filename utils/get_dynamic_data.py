@@ -4,6 +4,7 @@ import requests
 from flask import request
 from flask import redirect
 import urllib
+import jwt
 from utils.pkce import create_code_challenge, create_code_verifier
 from utils.state import generate_random_string
 
@@ -36,7 +37,7 @@ def build_parameters():
     return True  # placeholder
 
 def get_JWT_tokens(code):
-    tokens = None
+    tokens = None, None
 
     print("Building token URL...")
     token_baseURL = f'{baseURL}/a/consumer/api/v0/oidc/token'
@@ -63,13 +64,27 @@ def get_JWT_tokens(code):
     # make a POST request to the token endpoint
     response = requests.post(token_baseURL, data=data, headers=headers, allow_redirects=False)
 
-    if response.status_code == 200:
-        tokens = response.json()
-        print("Token URL response:", tokens)
-    else:
+    #if response.status_code == 200:
+    #    tokens = response.json()
+    #    print("Token URL response:", tokens)
+    #else:
+   #     print("Failed to get token URL. Status code:", response.status_code)
+   #     print("Response:", response.text)
+
+    if response.status_code != 200:
         print("Failed to get token URL. Status code:", response.status_code)
-        print("Response:", response.text)
-    return tokens  # placeholder
+        print("Response:", response.text)  
+        return tokens
+
+    print("Token URL response:", response.json())
+    tokens = response.json()
+    access_token = tokens.get("access_token")
+    print("Access Token:", access_token)
+    id_token = tokens.get("id_token")
+    id_token_decoded = jwt.decode(id_token, options={"verify_signature": False})
+    print("ID Token (decoded):", id_token_decoded)
+
+    return access_resources, id_token_decoded
 
 def exchange_tokens(token_url):
 
@@ -211,8 +226,8 @@ def request_authorization():
     #return redirect_uri_full
 
 def get_dynamic_data(code=None):
-    name = "Dynamic User"
-    accounts_count = 3
+    name = None
+    accounts_count = None
 
     if code == None:
         print("No authorization code provided.")
