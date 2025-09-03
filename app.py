@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "hello, you're home!"
+    return render_template("default.html")
 
 @app.route("/default")
 def default():
@@ -17,10 +17,9 @@ def default():
 
 @app.route("/dynamic")
 def dynamic(name=None, accounts_count=None):
-    if name and accounts_count is not None:
-        return render_template("dynamic.html", name=name, accounts_count=accounts_count)
-    else:
+    if name is None or accounts_count is None:
         return render_template("default.html")
+    return render_template("dynamic.html", name=name, accounts_count=accounts_count)
     
 @app.route("/auth")
 def auth():
