@@ -51,8 +51,10 @@ On macOS/Linux:
 
 4. Install the dependencies
 `pip install -r requirements.txt`
-5. Run the default app:
+5. Run the plugin app:
 `python -m flask run`
+
+6. Log into the Banno platform to view the plugin
 
 ## Sample Screenshots
 Can be found on the `SCREENSHOTS README`.
