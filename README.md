@@ -31,8 +31,10 @@ The page is named **default** because **static** is a keyword in Flask.
 1. After configuring run environment, add the plugin to the user dashboard.
 
 See [Build Your First Plugin](https://jackhenry.dev/open-api-docs/plugins/quickstarts/BuildYourFirstPlugin/) quickstart.
+
 2. Go to the application folder:
 `cd simple-plugin-example-Python`
+
 3. Create a virtual environment for the app:
 
 On windows:
