@@ -9,13 +9,31 @@
 
 - Because this Plugin is specific to Python, the setup and run instructions will differ a bit from the JavaScript quickstart tutorial. Read below for instructions specific for this Plugin.
 
-## How to Run: Static Plugin
-1. Configure external app in Banno People with correct redirect uri:
-`http://localhost:5000/default`
-2. Add the plugin to the user dashboard
-3. Go to the application folder:
+- The **Static Plugin** displays static content without user data.
+The page is named **default** because **static** is a keyword in Flask.
+- The **Dynamic Plugin** displays content with user data, obtained through authentication.
+
+## Configure Run Environment: Static Plugin
+1. Configure external app in Banno People with correct redirect uri(s):
+- primary redirect uri: `http://localhost:5000/default`
+
+## Configure Run Environment: Dynamic Plugin
+1. Configure external app in Banno People with correct redirect uri(s):
+- primary redirect uri: `http://localhost:5000/auth`
+- secondary redirect uri: `http://localhost:5000/auth/callback`
+
+2. Rename config-EXAMPLE.json to config.json
+3. Add `client_id`, `client_secret`, and `redirect_uri` to the config file.
+
+- redirect uri: `http://localhost:5000/auth/callback`
+
+## How to Run:
+1. After configuring run environment, add the plugin to the user dashboard.
+
+See [Build Your First Plugin](https://jackhenry.dev/open-api-docs/plugins/quickstarts/BuildYourFirstPlugin/) quickstart.
+2. Go to the application folder:
 `cd simple-plugin-example-Python`
-4. Create a virtual environment for the app:
+3. Create a virtual environment for the app:
 
 On windows:
 
@@ -29,13 +47,10 @@ On macOS/Linux:
 
 `.venv\scripts\activate`
 
-5. Install the dependencies
+4. Install the dependencies
 `pip install -r requirements.txt`
-6. Run the default app:
+5. Run the default app:
 `python -m flask run`
-
-## How to Run: Dynamic Plugin
-Coming Soon: Work in progress on Dynamic Plugin
 
 ## Sample Screenshots
 Can be found on the `SCREENSHOTS README`.
