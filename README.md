@@ -58,3 +58,6 @@ On macOS/Linux:
 
 ## Sample Screenshots
 Can be found on the `SCREENSHOTS README`.
+
+## OAuth Authentication and Authorization Flow
+<img src="/diagrams/Python-Web-OAuth-Flow.png" width="1000" />
