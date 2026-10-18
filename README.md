@@ -30,24 +30,26 @@ The page is named **default** because **static** is a keyword in Flask.
 ## How to Run:
 1. After configuring run environment, add the plugin to the user dashboard.
 
-See [Build Your First Plugin](https://jackhenry.dev/open-api-docs/plugins/quickstarts/BuildYourFirstPlugin/) quickstart.
+See [Build Your First Plugin](https://jackhenry.dev/open-api-docs/plugins/quickstarts/BuildYourFirstPlugin/) quickstart for instructions on how to do this.
+
+If you are a fintech or independent developer, set up an account on the [JackHenry.Dev developer portal](https://jackhenry.dev/portal/) and then continue to follow the instructions on the quickstart page.
 
 2. Go to the application folder:
-`cd simple-plugin-example-Python`
+`cd simple-plugin-example-python`
 
 3. Create a virtual environment for the app:
 
 On windows:
 
-`py -m venv .venv`
+`python -m venv .venv`
 
 `.venv\scripts\activate`
 
 On macOS/Linux:
 
-`py -m venv .venv`
+`python -m venv .venv`
 
-`.venv\scripts\activate`
+`source .venv/scripts/activate`
 
 4. Install the dependencies
 `pip install -r requirements.txt`
@@ -55,6 +57,9 @@ On macOS/Linux:
 `python -m flask run`
 
 6. Log into the Banno platform to view the plugin
+
+Test your plugin by going to the [Banno "Garden" test application](https://digital.garden-fi.com/organize-dashboard). You may need to first create an account and log in.
+
 
 ## Sample Screenshots
 Can be found on the `SCREENSHOTS README`.
